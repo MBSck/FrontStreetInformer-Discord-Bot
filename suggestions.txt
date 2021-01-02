@@ -1,0 +1,72 @@
+This suggestions has been sent in on 4.5.2020 at 11:28:14 and reads:
+'Umfrage funktion hinzufügen'
+
+This suggestions has been sent in on 8.5.2020 at 0:37:54 and reads:
+'Make japanese function that also adds the contents to an anki android deck'
+
+This suggestions has been sent in on 8.5.2020 at 18:39:7 and reads:
+'marten stinkt- notiz ende'
+
+This suggestions has been sent in on 9.5.2020 at 13:1:25 and reads:
+'make a bot that wins in civ'
+
+This suggestions has been sent in on 9.5.2020 at 19:40:54 by Whykiller#8939 and reads:
+'add the airdates search functionality'
+
+This suggestions has been sent in on 10.5.2020 at 0:11:23 by Whykiller#8939 and reads:
+'Ceasar Verschluesselung implementieren'
+
+This suggestions has been sent in on 10.5.2020 at 0:16:13 by Whykiller#8939 and reads:
+'unsubscribe from bot insults, but if you do then it will be detected and will be posted as a pussy in discord'
+
+This suggestions has been sent in on 10.5.2020 at 0:56:11 by Whykiller#8939 and reads:
+'generation mechanic that generates random insults from keywords'
+
+This suggestions has been sent in on 10.5.2020 at 0:56:26 by Whykiller#8939 and reads:
+'make insult command that directly insults certain persons'
+
+This suggestions has been sent in on 10.5.2020 at 0:57:34 by Whykiller#8939 and reads:
+'persons has to react to insults or you will be dissed in the channels'
+
+This suggestions has been sent in on 10.5.2020 at 1:12:55 by Whykiller#8939 and reads:
+'if you want to unsubscribe you have to confirm and type a long commando that insults the user to really unsubscribe'
+
+This suggestions has been sent in on 10.5.2020 at 1:14:34 by Whykiller#8939 and reads:
+'make dark background for roll functions and other output of discord bot'
+
+This suggestions has been sent in on 10.5.2020 at 1:23:37 by Whykiller#8939 and reads:
+'bot that corrects the grammar of people and insults people with bad english german japanes and other languages xD'
+
+This suggestions has been sent in on 10.5.2020 at 9:12:45 by Whykiller#8939 and reads:
+'make discord bot into chat bot'
+
+This suggestions has been sent in on 10.5.2020 at 9:18:12 by Whykiller#8939 and reads:
+'send specifiy insults by getting the members and then sending only those that match'
+
+This suggestions has been sent in on 10.5.2020 at 9:21:19 by Whykiller#8939 and reads:
+'add nickname dictionaries of people so that insults even work if user id is not the same'
+
+This suggestions has been sent in on 10.5.2020 at 9:58:42 by Whykiller#8939 and reads:
+'make history snippit bot, that sends you cool stuff about history'
+
+This suggestions has been sent in on 10.5.2020 at 10:23:39 by Whykiller#8939 and reads:
+'instead of insulut there could also be a video or song or something else'
+
+This suggestions has been sent in on 10.5.2020 at 10:23:46 by Whykiller#8939 and reads:
+'make music bot functionality'
+
+This suggestions has been sent in on 10.5.2020 at 15:50:28 by Whykiller#8939 and reads:
+'make informative knowledge command that maybe also creates anki cards, from Wikipedia or kurzgesagt or similar'
+'should post once a day'
+
+This suggestions has been sent in on 11.5.2020 at 19:38:20 by Whykiller#8939 and reads:
+'Make a Webserver with RaspberryPi and Flask'
+
+This suggestions has been sent in on 11.5.2020 at 23:14:15 by Whykiller#8939 and reads:
+'send disclaimer so everyone knows the bots functionality'
+
+This suggestions has been sent in on 12.5.2020 at 0:8:45 by Whykiller#8939 and reads:
+'make bots code more readable'
+
+This suggestions has been sent in on 10.7.2020 at 23:26:37 by Whykiller#8939 and reads:
+'Add nifty facts like two minute papers or minute physics'
