@@ -1,5 +1,4 @@
-import discord
-from discord.ext import commands
+from assets.variables_and_imports import *
 
 # Ciphers
 

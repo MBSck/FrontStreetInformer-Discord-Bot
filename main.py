@@ -1,76 +1,16 @@
-import os
-import random
-import urllib.request
-import re
-import datetime
-import string
-import math
-import discord
-import asyncio
-import youtube_dl
-import lavalink
-import operator
-import time
+"""Author: Marten Scheuck - FrontStreetInformer"""
+# Importing  functionality
 
-from dotenv import load_dotenv
-from discord.ext import commands
-from bs4 import BeautifulSoup
-from Logger import Logger as Log
-
-# Importing background functionality
-
-from customfunctions import *
-
-# Importing the cogs
-
-from dnd import DnD
-from dndlobby import DnDLobby
-from ciphers import Ciphers
-from music import Music
-
-# Global variables
-
-
-lobby = False
-lobby_host = ""
-lobby_members = {}
-lobby_locked = False
-
-# Operator dict
-
-operator_dict = {"+": operator.add, "-": operator.sub, "/": operator.floordiv, "*": operator.mul}
-
-
+from functionality.cogs import add_cogs
+from functionality.customfunctions import *
 
 if __name__ == "__main__":
-    
-    # To ensure it can be shutdown if it causes any problems to the raspi
-
-    time.sleep(15)
-
-    # This gets the path of the file being executed
-
-    path_str = os.path.dirname(os.path.realpath(__file__))
-
-    # Load Token
-
-    load_dotenv(os.path.join(path_str, "Token.env"))
-
-    # Configure bot tokens
-
-    TOKEN = os.getenv("DISCORD_TOKEN")
-    GUILD = os.getenv("GUILD_TOKEN")
-
-    bot = commands.Bot(command_prefix="!", case_insensitive=True)
         
-        
-    # Calls the logger once to initialize it as well as sets the cogs up
+    # Startup the bot
 
-    logger = Log()
-    
+    bot, TOKEN, GUILD = startup(15)
     
     # Background tasks
-
 
     @bot.event
     async def game_presence():
@@ -88,9 +28,7 @@ if __name__ == "__main__":
 
     bot.loop.create_task(game_presence())
 
-
     # Bot events (Bot is subclass of client and handles things a bit differently)
-
 
     @bot.event
     async def on_message(message):
@@ -125,12 +63,9 @@ if __name__ == "__main__":
             await ctx.send("You do not have the correct role for this command.")
 
 
-    # Adds the cog to the register
+    # Adds the cogs
 
-
-    bot.add_cog(Ciphers())
-    bot.add_cog(DnDLobby())
-    bot.add_cog(DnD())
+    add_cogs(bot)
 
     # Runs the bot
 
