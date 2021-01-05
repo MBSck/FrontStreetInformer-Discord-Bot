@@ -8,7 +8,7 @@ if __name__ == "__main__":
         
     # Startup the bot
 
-    bot, TOKEN, GUILD = startup(15)
+    bot, TOKEN, GUILD = startup(0)
     
     # Background tasks
 
@@ -29,12 +29,12 @@ if __name__ == "__main__":
     bot.loop.create_task(game_presence())
 
     # Bot events (Bot is subclass of client and handles things a bit differently)
-
+    '''
     @bot.event
     async def on_message(message):
         """Reacts to a user message to the bot"""
         ...
-
+    '''
 
     @bot.event
     async def on_ready():

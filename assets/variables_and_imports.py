@@ -15,7 +15,8 @@ import time
 from dotenv import load_dotenv
 from discord.ext import commands
 from bs4 import BeautifulSoup
-from logger import Logger as Log
+
+from assets.logger import Logger as Log
 
 ################################################
 # Global variables
