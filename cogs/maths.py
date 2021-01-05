@@ -20,15 +20,19 @@ class Math(commands.Cog):
 
         await ctx.send(f"Your sum total is {total}")
 
-    @commands.command(name="mul", aliases=["m"], help="Shorthand '!m'. Adds two or more numbers. Separate with spaces")
+    @commands.command(name="mul", aliases=["m"], help="Shorthand '!m'. Adds two or more numbers. Separate with spaces."
+                                                      "Can also divide with fractions e.g. 0.5 etc.")
     async def mul(self, ctx, *args):
         numbers = []
 
         for i in args:
-            numbers.append(int(i))
+            numbers.append(float(i))
 
-        total = 1
+        total = 1.0
         for i in numbers:
             total *= i
+
+        if total % 2 == 0:
+            total = int(total)
 
         await ctx.send(f"Your multiplication result is {total}")
