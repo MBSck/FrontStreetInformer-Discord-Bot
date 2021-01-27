@@ -1,5 +1,5 @@
 from assets.variables_and_imports import *
-from functionality.customfunctions import Updater
+from functionality.tools import Updater
 
 # DnD - Lobby
 
@@ -10,19 +10,26 @@ class DnDLobby(commands.Cog):
         # Initialize updater
         self.updater = Updater()
 
+        # Sets the config file section name
+        self.section = "Lobby-Config"
+
         # Reads out the values out of the cfg
         self.lobby = False
         self.lobby_locked = False
-        self.lobby_members = []
+        self.lobby_members = {}
         self.lobby_host = ""
 
     def check_for_updates(self):
         """Updates the values and checks if anything changed"""
-        self.lobby = ast.literal_eval(self.updater.read_cfg_file("Runtime-Config", "Lobby"))
-        self.lobby_locked = ast.literal_eval(self.updater.read_cfg_file("Runtime-Config", "Lobby_Locked"))
-        self.lobby_members = self.updater.read_cfg_file("Runtime-Config", "Lobby_Members").split(",")
-        print(self.lobby_members)
-        self.lobby_host = self.updater.read_cfg_file("Runtime-Config", "Lobby_Host")
+        self.lobby = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby"))
+        self.lobby_locked = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby_Locked"))
+        self.lobby_members = self.updater.readout_section_to_dict("Lobby-Members")
+        self.lobby_host = self.updater.read_cfg_file(self.section, "Lobby_Host")
+
+    def write_lobby_members(self):
+        for i, o in self.lobby_members.items():
+            self.updater.update_cfg_file("Lobby-Members", i, o)
+            print(self.lobby_members)
 
     @commands.command(name="lobby.start", aliases=["l.s"])
     async def lobby_start(self, ctx):
@@ -30,9 +37,11 @@ class DnDLobby(commands.Cog):
         self.check_for_updates()
 
         if not self.lobby:
-            self.updater.update_cfg_file("Runtime-Config", "Lobby_Host", ctx.author.name)
+            self.updater.update_cfg_file(self.section, "Lobby_Host", ctx.author.name)
             self.lobby_members[ctx.message.author.name] = ctx.message.author.id
-            self.updater.update_cfg_file("Runtime-Config", "Lobby", "True")
+            self.write_lobby_members()
+            self.updater.update_cfg_file(self.section, "Lobby", "True")
+            self.check_for_updates()
 
             await ctx.send("> Lobby has been created!")
 
@@ -46,9 +55,11 @@ class DnDLobby(commands.Cog):
 
         if self.lobby:
             if ctx.author.name == self.lobby_host:
-                self.updater.update_cfg_file("Runtime-Config", "Lobby", "False")
-                self.updater.update_cfg_file("Runtime-Config", "Lobby_Host", '')
-                self.updater.cfg_parser.remove_section('Lobby-Members')
+                self.updater.update_cfg_file(self.section, "Lobby", "False")
+                self.updater.update_cfg_file(self.section, "Lobby_Host", None)
+
+                for i, o in self.lobby_members.items():
+                    self.updater.cfg_parser.remove_option("Lobby-Members", i)
 
                 self.check_for_updates()
 
@@ -76,7 +87,7 @@ class DnDLobby(commands.Cog):
         self.check_for_updates()
 
         if self.lobby and ctx.author.name == self.lobby_host:
-            self.updater.update_cfg_file("Runtime-Config", "Lobby_Locked", "True")
+            self.updater.update_cfg_file(self.section, "Lobby_Locked", "True")
             self.check_for_updates()
             await ctx.send("> Lobby has been **locked**!")
 
@@ -89,7 +100,7 @@ class DnDLobby(commands.Cog):
         self.check_for_updates()
 
         if self.lobby and ctx.author.name == self.lobby_host:
-            self.updater.update_cfg_file("Runtime-Config", "Lobby_Locked", "False")
+            self.updater.update_cfg_file(self.section, "Lobby_Locked", "False")
             self.check_for_updates()
             await ctx.send("> Lobby has been **unlocked**!")
 
@@ -142,7 +153,7 @@ class DnDLobby(commands.Cog):
                 await user.send(f"> {ctx.author.name} has **left** the lobby.")
 
             if len(self.lobby_members) == 0:
-                self.updater.update_cfg_file("Runtime-Config", "Lobby", "False")
+                self.updater.update_cfg_file(self.section, "Lobby", "False")
                 self.check_for_updates()
 
             await ctx.send("> You have left the lobby!")
@@ -189,7 +200,7 @@ class DnDLobby(commands.Cog):
 
         if self.lobby and ctx.author.name == self.lobby_host:
             if name in self.lobby_members:
-                self.updater.update_cfg_file("Runtime-Config", "Lobby_Host", name)
+                self.updater.update_cfg_file(self.section, "Lobby_Host", name)
                 self.check_for_updates()
                 for i, o in self.lobby_members.items():
 
@@ -216,6 +227,7 @@ class DnDLobby(commands.Cog):
         self.check_for_updates()
 
         if self.lobby:
+            print("hello")
             if ctx.message.author.name in self.lobby_members:
                 message = ""
 

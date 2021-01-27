@@ -2,7 +2,7 @@
 # Importing  functionality
 
 from functionality.cogs import add_cogs
-from functionality.customfunctions import *
+from functionality.tools import *
 
 if __name__ == "__main__":
         
