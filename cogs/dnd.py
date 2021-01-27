@@ -5,6 +5,25 @@ from cogs.dndlobby import *
 
 class DnD(commands.Cog):
     """Gameplay functions for DnD"""
+    def __init__(self):
+        # Initialize updater
+        self.updater = Updater()
+
+        # Sets the config file section name
+        self.section = "Lobby-Config"
+
+        # Reads out the values out of the cfg
+        self.lobby = False
+        self.lobby_locked = False
+        self.lobby_members = {}
+        self.lobby_host = ""
+
+    def check_for_updates(self):
+        """Updates the values and checks if anything changed"""
+        self.lobby = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby"))
+        self.lobby_locked = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby_Locked"))
+        self.lobby_members = self.updater.readout_section_to_dict("Lobby-Members")
+        self.lobby_host = self.updater.read_cfg_file(self.section, "Lobby_Host")
 
     async def get_dice_roll(self, ctx, dice: str = "1d20", *args: str):
         """Gets the dice rolls after user output and calculates its sum"""
@@ -126,6 +145,7 @@ class DnD(commands.Cog):
         """Shorthand '!r'.Rolls dice. Defaults to d20. Input '!roll/!r [# dice]d[# sides] + [modifiers]'\n "
         "Allowed operators for modifiers are + - / *. Can also row multiple dice at the same time. Of the format
         !roll/!r [# dice]d[# sides] [+-/*] [modifiers] [# dice]d[# sides] [+-/*] [modifiers] ..."""
+        self.check_for_updates()
 
         roll_output = await self.get_dice_roll(ctx, throw_command, *args)
 
@@ -133,9 +153,9 @@ class DnD(commands.Cog):
             return
 
         # Broadcasts the results to the members of the lobby and does not if no lobby exists
-        if lobby and (ctx.author.name in lobby_members) \
-                and (ctx.author.name != lobby_host):
-            for i, o in lobby_members.items():
+        if self.lobby and (str(ctx.author.name).lower() in self.lobby_members) \
+                and (str(ctx.author.name).lower() != self.lobby_host):
+            for i, o in self.lobby_members.items():
                 user = await ctx.bot.fetch_user(o)
                 await user.send(f"{ctx.author.name} rolled {roll_output}")
         else:
@@ -145,15 +165,16 @@ class DnD(commands.Cog):
                                                           "to Game Master and also you."
                                                           " Also defaults to 1d20. Great for hidden/discreet checks")
     async def gm_roll(self, ctx, throw_command: str = "1d20", *args):
+        self.check_for_updates()
 
-        if lobby:
+        if self.lobby:
             roll_output = await self.get_dice_roll(ctx, throw_command, *args)
 
             if roll_output is None:
                 return
 
-            for i, o in lobby_members.items():
-                if (ctx.author.name in lobby_members) and (i == lobby_host):
+            for i, o in self.lobby_members.items():
+                if (str(ctx.author.name).lower() in self.lobby_members) and (i == self.lobby_host):
                     user = await ctx.bot.fetch_user(o)
                     await user.send(f"{ctx.author.name} rolled {roll_output}")
 
@@ -165,15 +186,16 @@ class DnD(commands.Cog):
     @commands.command(name="scroll", aliases=["sr"], help="Shorthand '!sr'. This is a secret roll that sends "
                                                           "the result to the DM only")
     async def secret_roll(self, ctx, throw_command: str = "1d20", *args):
+        self.check_for_updates()
 
-        if lobby:
+        if self.lobby:
             roll_output = await self.get_dice_roll(ctx, throw_command, *args)
 
             if roll_output is None:
                 return
 
-            for i, o in lobby_members.items():
-                if (ctx.author.name in lobby_members) and (i == lobby_host):
+            for i, o in self.lobby_members.items():
+                if (str(ctx.author.name).lower() in self.lobby_members) and (i == self.lobby_host):
                     user = await ctx.bot.fetch_user(o)
                     await user.send(f"{ctx.author.name} rolled {roll_output}")
 
@@ -185,6 +207,8 @@ class DnD(commands.Cog):
     @commands.command(name="rnd", aliases=["rng"], help="This is a random number. Defaults to 0-100. "
                                                         "The format is <start_of_range> - <end_of_range>. ")
     async def rnd(self, ctx, *args):
+        self.check_for_updates()
+
         rng = ""
         rng_start = 0
         rng_end = 100
@@ -208,8 +232,9 @@ class DnD(commands.Cog):
                                "Format has been defaulted to end at 100")
 
         # Broadcasts the results to the members of the lobby and does not if no lobby exists
-        if lobby and (ctx.author.name in lobby_members) and (ctx.author.name != lobby_host):
-            for i, o in lobby_members.items():
+        if self.lobby and (str(ctx.author.name).lower() in self.lobby_members) and\
+                (str(ctx.author.name).lower() != self.lobby_host):
+            for i, o in self.lobby_members.items():
                 user = await ctx.bot.fetch_user(o)
                 if rng_end > rng_start:
                     rnd_number = random.choice(range(rng_start, rng_end + 1))

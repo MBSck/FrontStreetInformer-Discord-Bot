@@ -29,7 +29,6 @@ class DnDLobby(commands.Cog):
     def write_lobby_members(self):
         for i, o in self.lobby_members.items():
             self.updater.update_cfg_file("Lobby-Members", i, o)
-            print(self.lobby_members)
 
     @commands.command(name="lobby.start", aliases=["l.s"])
     async def lobby_start(self, ctx):
@@ -37,8 +36,8 @@ class DnDLobby(commands.Cog):
         self.check_for_updates()
 
         if not self.lobby:
-            self.updater.update_cfg_file(self.section, "Lobby_Host", ctx.author.name)
-            self.lobby_members[ctx.message.author.name] = ctx.message.author.id
+            self.updater.update_cfg_file(self.section, "Lobby_Host", str(ctx.author.name).lower())
+            self.lobby_members[str(ctx.message.author.name).lower()] = ctx.message.author.id
             self.write_lobby_members()
             self.updater.update_cfg_file(self.section, "Lobby", "True")
             self.check_for_updates()
@@ -54,7 +53,7 @@ class DnDLobby(commands.Cog):
         self.check_for_updates()
 
         if self.lobby:
-            if ctx.author.name == self.lobby_host:
+            if str(ctx.author.name).lower() == self.lobby_host:
                 self.updater.update_cfg_file(self.section, "Lobby", "False")
                 self.updater.update_cfg_file(self.section, "Lobby_Host", None)
 
@@ -77,9 +76,30 @@ class DnDLobby(commands.Cog):
         self.check_for_updates()
 
         if self.lobby:
-            await ctx.send(f"> There is a lobby online with {str(len(self.lobby_members))} members.")
+            await ctx.send(f"> There is a lobby online with {len(self.lobby_members)} members.")
         else:
             await ctx.send("> No lobby exists.")
+
+    @commands.command(name="lobby.members", aliases=["l.m"])
+    async def lobby_members(self, ctx):
+        """Displays the members of the lobby"""
+        self.check_for_updates()
+
+        if self.lobby:
+            if str(ctx.message.author.name).lower() in self.lobby_members:
+                message = ""
+
+                for i in self.lobby_members:
+                    if i == self.lobby_host:
+                        message += "__Host__: " + str(i).capitalize() + ", "
+                    else:
+                        message += str(i).capitalize() + ", "
+
+                message = message[:-2]
+
+                await ctx.send(f">>> Members in the lobby:\n{message}")
+        else:
+            await ctx.send("> There is no lobby or it has been locked!")
 
     @commands.command("lobby.lock", aliases=["l.lo"])
     async def lobby_locked(self, ctx):
@@ -99,13 +119,17 @@ class DnDLobby(commands.Cog):
         """Command for the host to unlock the lobby"""
         self.check_for_updates()
 
-        if self.lobby and ctx.author.name == self.lobby_host:
-            self.updater.update_cfg_file(self.section, "Lobby_Locked", "False")
-            self.check_for_updates()
-            await ctx.send("> Lobby has been **unlocked**!")
+        if self.lobby_locked:
+            if self.lobby and ctx.author.name == self.lobby_host:
+                self.updater.update_cfg_file(self.section, "Lobby_Locked", "False")
+                self.check_for_updates()
+                await ctx.send("> Lobby has been **unlocked**!")
+
+            else:
+                await ctx.send("> You do not have permission to do that!")
 
         else:
-            await ctx.send("> You do not have permission to do that!")
+            await ctx.send("> You cannot unlock what is not locked!")
 
     @commands.command(name="lobby.join", aliases=["l.j"])
     async def join_lobby(self, ctx):
@@ -113,15 +137,15 @@ class DnDLobby(commands.Cog):
         self.check_for_updates()
 
         if self.lobby and not self.lobby_locked:
-            if ctx.message.author.name in self.lobby_members:
+            if str(ctx.message.author.name).lower() in self.lobby_members:
                 await ctx.send("> You have already joined the lobby.")
 
             else:
-                self.lobby_members[ctx.message.author.name] = ctx.message.author.id
+                self.lobby_members[str(ctx.message.author.name).lower()] = ctx.message.author.id
                 message = ""
 
                 for i in self.lobby_members:
-                    message += i + ", "
+                    message += str(i).capitalize() + ", "
 
                 message = message[:-2]
 
@@ -140,21 +164,22 @@ class DnDLobby(commands.Cog):
         self.check_for_updates()
 
         if self.lobby:
-            del self.lobby_members[ctx.author.name]
+            del self.lobby_members[str(ctx.author.name).lower()]
 
             for i, o in self.lobby_members.items():
                 user = await ctx.bot.fetch_user(o)
 
-                if ctx.author.name == self.lobby_host:
-                    self.lobby_host = ""
+                if str(ctx.author.name).lower() == self.lobby_host:
                     self.lobby_host = random.choice(self.lobby_members)
+                    self.updater.update_cfg_file(self.section, "Lobby_Host", self.lobby_host)
                     await self.lobby_host_change(ctx, self.lobby_host)
 
                 await user.send(f"> {ctx.author.name} has **left** the lobby.")
 
             if len(self.lobby_members) == 0:
-                self.updater.update_cfg_file(self.section, "Lobby", "False")
-                self.check_for_updates()
+                # Lazy bugfix for the problem of closing the lobby if you leave yourself and lose the rights to do that
+                await ctx.send("> You were the last member, lobby has been closed!")
+                await self.updater.create_cfg_file()
 
             await ctx.send("> You have left the lobby!")
 
@@ -166,7 +191,7 @@ class DnDLobby(commands.Cog):
         """Command for the host locks kicks a member of the lobby"""
         self.check_for_updates()
 
-        if self.lobby and ctx.author.name == self.lobby_host:
+        if self.lobby and (str(ctx.author.name).lower() == self.lobby_host):
             if name in self.lobby_members:
                 if name == self.lobby_host:
                     if len(self.lobby_members) == 1:
@@ -220,25 +245,3 @@ class DnDLobby(commands.Cog):
 
         else:
             await ctx.send("> You do not have permission to do that!")
-
-    @commands.command(name="lobby.members", aliases=["l.m"])
-    async def lobby_members(self, ctx):
-        """Displays the members of the lobby"""
-        self.check_for_updates()
-
-        if self.lobby:
-            print("hello")
-            if ctx.message.author.name in self.lobby_members:
-                message = ""
-
-                for i in self.lobby_members:
-                    if i == self.lobby_host:
-                        message += "__Host__: " + i + ", "
-                    else:
-                        message += i + ", "
-
-                message = message[:-2]
-
-                await ctx.send(f">>> Members in the lobby:\n{message}")
-        else:
-            await ctx.send("> There is no lobby or it has been locked!")
