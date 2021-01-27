@@ -9,7 +9,15 @@ if __name__ == "__main__":
     # Startup the bot
 
     bot, TOKEN, GUILD = startup(0)
-    
+
+    # Calls the logger once to initialize it
+
+    logger = Log()
+
+    # Calls the Updater once to initialize it
+
+    updater = Updater()
+
     # Background tasks
 
     @bot.event

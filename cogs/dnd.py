@@ -1,10 +1,12 @@
-from assets.variables_and_imports import *
+from cogs.dndlobby import *
 
 # DnD
 
 
 class DnD(commands.Cog):
     """Gameplay functions for DnD"""
+    def __init__(self):
+        self.dndlobby = DnDLobby()
 
     async def get_dice_roll(self, ctx, dice: str = "1d20", *args: str):
         """Gets the dice rolls after user output and calculates its sum"""
@@ -133,8 +135,9 @@ class DnD(commands.Cog):
             return
 
         # Broadcasts the results to the members of the lobby and does not if no lobby exists
-        if lobby and (ctx.author.name in lobby_members) and (ctx.author.name != lobby_host):
-            for i, o in lobby_members.items():
+        if self.dndlobby.lobby and (ctx.author.name in self.dndlobby.lobby_members) \
+                and (ctx.author.name != self.dndlobby.lobby_host):
+            for i, o in self.dndlobby.lobby_members.items():
                 user = await ctx.bot.fetch_user(o)
                 await user.send(f"{ctx.author.name} rolled {roll_output}")
         else:
@@ -144,14 +147,15 @@ class DnD(commands.Cog):
                                                           "to Game Master and also you."
                                                           " Also defaults to 1d20. Great for hidden/discreet checks")
     async def gm_roll(self, ctx, throw_command: str = "1d20", *args):
-        if lobby:
+
+        if self.dndlobby.lobby:
             roll_output = await self.get_dice_roll(ctx, throw_command, *args)
 
             if roll_output is None:
                 return
 
-            for i, o in lobby_members.items():
-                if (ctx.author.name in lobby_members) and (i == lobby_host):
+            for i, o in self.dndlobby.lobby_members.items():
+                if (ctx.author.name in self.dndlobby.lobby_members) and (i == self.dndlobby.lobby_host):
                     user = await ctx.bot.fetch_user(o)
                     await user.send(f"{ctx.author.name} rolled {roll_output}")
 
@@ -163,14 +167,15 @@ class DnD(commands.Cog):
     @commands.command(name="scroll", aliases=["sr"], help="Shorthand '!sr'. This is a secret roll that sends "
                                                           "the result to the DM only")
     async def secret_roll(self, ctx, throw_command: str = "1d20", *args):
-        if lobby:
+
+        if self.dndlobby.lobby:
             roll_output = await self.get_dice_roll(ctx, throw_command, *args)
 
             if roll_output is None:
                 return
 
-            for i, o in lobby_members.items():
-                if (ctx.author.name in lobby_members) and (i == lobby_host):
+            for i, o in self.dndlobby.lobby_members.items():
+                if (ctx.author.name in self.dndlobby.lobby_members) and (i == self.dndlobby.lobby_host):
                     user = await ctx.bot.fetch_user(o)
                     await user.send(f"{ctx.author.name} rolled {roll_output}")
 
