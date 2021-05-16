@@ -30,7 +30,7 @@ if __name__ == "__main__":
         while not bot.is_closed():
             status = random.choice(games)
 
-            await bot.change_presence(status=discord.Status.idle, activity=discord.Game(status, type=3))
+            await bot.change_presence(activity=discord.Game(status, type=3))
             await asyncio.sleep(15)
 
 
