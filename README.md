@@ -16,8 +16,19 @@ _Is being worked on_
 Coming soon
 
 ## Features
+Here the different abilities and attributes of the Discord-Bot are highlighted
+* [Ciphers](#Ciphers)
+* [DnD-And-DnDLobby](#DnD-And-DnDLobby)
+* [Maths](#Maths)
+* [Music](#Setup)
 
-Coming soon
+### Ciphers
+
+### DnD-And-DnDLobby
+
+### Maths
+
+### Music
 
 ## Contact
 Created by Marten B. Scheuck - feel free to contact me
