@@ -1,4 +1,5 @@
-"""Author: Marten Scheuck - FrontStreetInformer"""
+"""FrontStreetInformer-Discord-Bot"""
+__author__ = "Marten Scheuck"
 # Importing  functionality
 
 from functionality.cogs import add_cogs
@@ -25,7 +26,7 @@ if __name__ == "__main__":
         """Changes the status of the game, which the bot is playing"""
         await bot.wait_until_ready()
 
-        games = ["DnD - Helper", "Listening to you", "Write '!help' for help", "Insulting you"]
+        games = ["DnD - Helper", "Listening to you", "Write '!help' for help"]
 
         while not bot.is_closed():
             status = random.choice(games)
@@ -50,19 +51,6 @@ if __name__ == "__main__":
         print(f"{bot.user.name} has connected to Discord!")
 
 
-    """
-    @bot.event
-    async def on_member_update(ctx, after):
-        chance = random.choice([1, 2, 3])
-        if str(after.status) == "online":
-            if chance == 2:
-                with open(os.path.abspath("insults.txt"), "r") as f:
-                    insult_list = f.read().split('|')
-                insult = random.choice(insult_list)
-                # logger.log(f"Insult given {ctx.nick} to . This is todays { insult")
-                print(f"Insulted {ctx.display_name}")
-                await ctx.send(insult)
-    """
 
 
     @bot.event
