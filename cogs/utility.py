@@ -16,23 +16,6 @@ class Utility(commands.Cog):
     async def unsub(self):
         ...
 
-    @commands.command(name="add.insult", help="This adds an insult for the welcome message")
-    async def insult_add(self, ctx, *args):
-        insult_str = ''
-        for i in args:
-            insult_str += ' ' + i
-
-        insult_str = insult_str[1:]
-        try:
-            with open(os.path.join("insults.txt"), "a") as f:
-                f.write(insult_str + '|\n')
-                f.close()
-
-            await ctx.send(f"Insult was added, thank you!\n"
-                           f"Insult reads:\n '{insult_str}'")
-
-        except ValueError:
-            await ctx.send("Please do not use single quotation marks")
 
     @commands.command(name="suggest", help="This makes a suggestion for new bot functionality")
     async def suggest(self, ctx, *args):
