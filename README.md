@@ -31,7 +31,7 @@ All of the bots commands (except the music) can be accessed via private chat
 
 ### DnD-And-DnDLobby
 #### DnD-Lobby
-- Creates a lobby with commands for host and members
+-- Creates a lobby with commands for host and members
 - Different commands only apply to lobby members
 - Basic functions, such as join, kick and leave
 - Lock and unlock command to ensure privacy of lobby
