@@ -1,7 +1,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # FrontStreetInformer-Discord-Bot
-Discord bot, that runs on a raspberry-pi
+Discord bot that provides different functionalities in-app
+and is built to run continously on a server (e.g., raspberry-pi)
 
 ## Project status
 _Is being worked on_
@@ -17,6 +18,7 @@ Coming soon
 
 ## Features
 Here the different abilities and attributes of the Discord-Bot are highlighted
+in a Cog-structure, as they would be highlighted in-app:
 * [Ciphers](#Ciphers)
 * [DnD-And-DnDLobby](#DnD-And-DnDLobby)
 * [Maths](#Maths)
@@ -31,7 +33,7 @@ All of the bots commands (except the music) can be accessed via private chat
 
 ### DnD-And-DnDLobby
 #### DnD-Lobby
--- Creates a lobby with commands for host and members
+- Creates a lobby with commands for host and members
 - Different commands only apply to lobby members
 - Basic functions, such as join, kick and leave
 - Lock and unlock command to ensure privacy of lobby
@@ -55,7 +57,7 @@ Coming soon
 
 ### Utility
 Utility functions to improve the bot's function
-- 
+- Bug reporting and Feature suggesting
 
 ## Contact
 Created by Marten B. Scheuck - feel free to contact me
