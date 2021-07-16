@@ -1,11 +1,14 @@
 from cogs.dndlobby import *
 
-# DnD
+"""Dungeons and Dragons online functionality for the bot"""
 
 
 class DnD(commands.Cog):
     """Gameplay functions for DnD"""
+
     def __init__(self):
+        """Initializes all the classes attributes"""
+
         # Initialize updater
         self.updater = Updater()
 
@@ -20,6 +23,7 @@ class DnD(commands.Cog):
 
     def check_for_updates(self):
         """Updates the values and checks if anything changed"""
+
         self.lobby = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby"))
         self.lobby_locked = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby_Locked"))
         self.lobby_members = self.updater.readout_section_to_dict("Lobby-Members")
@@ -27,6 +31,7 @@ class DnD(commands.Cog):
 
     async def get_dice_roll(self, ctx, dice: str = "1d20", *args: str):
         """Gets the dice rolls after user output and calculates its sum"""
+
         try:
             arg_list = [dice]
             arg_list.extend(args)

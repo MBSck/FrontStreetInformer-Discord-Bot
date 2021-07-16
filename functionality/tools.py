@@ -4,32 +4,28 @@ from assets.variables_and_imports import *
 # Functions
 ############################################################
 
-# Initalizes time for timed functions
-
 
 def get_time():
+    """Gets the actual time and the datetime"""
     actual = datetime.datetime.now()
     actual_time = f"{actual.hour}:{actual.minute}:{actual.second}"
     actual_date_time = f"{actual.day}.{actual.month}.{actual.year} at {actual_time}"
     return actual_time, actual_date_time
 
 
-def startup(startup_delay):
+def startup(startup_delay: int):
+    """This function takes care of the bot-startup"""
     # To ensure it can be shutdown if it causes any problems to the raspi
-
     time.sleep(startup_delay)
 
     # Rewrite the config file
-
     updater = Updater()
     updater.create_cfg_file()
 
     # Load Token
-
     load_dotenv(os.path.join("assets/Token.env"))
 
     # Configure bot tokens
-
     TOKEN = os.getenv("DISCORD_TOKEN")
     GUILD = os.getenv("GUILD_TOKEN")
 
@@ -41,25 +37,29 @@ def startup(startup_delay):
 # Classes
 ############################################################
 
-# Singleton metaclass
-
 
 class Singleton(type):
+    """A singleton metaclass, that creates unique instanced classes"""
+
     def __init__(cls, *args, **kwargs):
+        """Supers and sets private class variables"""
         cls.__instance = None
         super(Singleton, cls).__init__(*args, **kwargs)
 
     def __call__(cls, *args, **kwargs):
+        """Checks if there is alrady a class instance, and if not creates it"""
         if cls.__instance is None:
             cls.__instance = super(Singleton, cls).__call__(*args, **kwargs)
 
         return cls.__instance
 
 
-# Writes updates and reads the config file
-
 class Updater(metaclass=Singleton):
+    """This class writes and updates the config-file"""
+
     def __init__(self):
+        """Sets the class attributes"""
+
         # Defines the parser for the cfg files
         self.cfg_parser = configparser.RawConfigParser()
 
@@ -79,7 +79,6 @@ class Updater(metaclass=Singleton):
             f.write("[Runtime-Config]\n")
             f.write(f"Startup_Date = {datetime.date.today()}\n")
             f.write(f"Runtime_Path = {install_path}\n")
-
             f.write('\n')
 
             # Lobby config
@@ -87,7 +86,6 @@ class Updater(metaclass=Singleton):
             f.write(f"Lobby = False\n")
             f.write(f"Lobby_Locked = False\n")
             f.write(f"Lobby_Host = \n")
-
             f.write('\n')
 
             # Lobby members register
@@ -95,6 +93,7 @@ class Updater(metaclass=Singleton):
 
     def update_cfg_file(self, header: str, key: str, value):
         """Updates the config file"""
+
         update_object = self.cfg_parser[header]
         update_object[key] = str(value)
 
@@ -103,6 +102,7 @@ class Updater(metaclass=Singleton):
 
     def read_cfg_file(self, header: str, key: str):
         """Gets the data from the config file"""
+
         self.cfg_parser.read(self.cfg_path)
 
         # reads out the data
@@ -112,8 +112,8 @@ class Updater(metaclass=Singleton):
 
     def readout_section_to_dict(self, section):
         """Read out section into dictionary"""
-        self.cfg_parser.read(self.cfg_path)
 
+        self.cfg_parser.read(self.cfg_path)
         dictionary = {}
 
         # Checks if section exists in file
@@ -131,6 +131,7 @@ class Updater(metaclass=Singleton):
 
     def readout_whole_cfg_file(self):
         """Reads out all of the config file"""
+
         self.cfg_parser.read(self.cfg_path)
         for i in self.cfg_parser.sections():
             print('Section:', i)

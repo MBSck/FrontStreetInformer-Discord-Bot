@@ -1,6 +1,6 @@
 from assets.variables_and_imports import *
 
-# Math Cog
+"""Implements general math functionality for the bot"""
 
 
 class Math(commands.Cog):
@@ -10,29 +10,20 @@ class Math(commands.Cog):
                                                       "Separate with spaces. "
                                                       "Can also add negative numbers with -<number>")
     async def add(self, ctx, *args):
-        numbers = []
-        for i in args:
-            numbers.append(int(i))
+        await ctx.send(f"Your sum total is {sum([float(i) for i in args])}")
 
-        total = 0
-        for i in numbers:
-            total += i
-
-        await ctx.send(f"Your sum total is {total}")
-
-    @commands.command(name="mul", aliases=["m"], help="Shorthand '!m'. Adds two or more numbers. Separate with spaces."
+    @commands.command(name="mul", aliases=["m"], help="Shorthand '!m'. Adds two or more numbers. "
+                                                      "Separate with spaces. "
                                                       "Can also divide with fractions e.g. 0.5 etc.")
     async def mul(self, ctx, *args):
-        numbers = []
 
-        for i in args:
-            numbers.append(float(i))
-
-        total = 1.0
-        for i in numbers:
+        total = 1
+        for i in [float(i) for i in args]:
             total *= i
 
-        if total % 2 == 0:
-            total = int(total)
+        await ctx.send(f"Your multiplication result is {round(total)}")
 
-        await ctx.send(f"Your multiplication result is {total}")
+
+if __name__ == "__main__":
+    print(sum([0.5, 10, 15]))
+    print(help(sum))

@@ -1,12 +1,13 @@
-"""FrontStreetInformer-Discord-Bot"""
+"""FrontStreetInformer-Discord-Bot
+A Discord-Bot that encompasses several functions to enhance the users' experience"""
+
 __author__ = "Marten Scheuck"
-# Importing  functionality
 
 from functionality.cogs import add_cogs
 from functionality.tools import *
 
 if __name__ == "__main__":
-        
+
     # Startup the bot
     bot, TOKEN, GUILD = startup(0)
 
