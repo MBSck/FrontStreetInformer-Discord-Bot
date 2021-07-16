@@ -8,19 +8,15 @@ from functionality.tools import *
 if __name__ == "__main__":
         
     # Startup the bot
-
     bot, TOKEN, GUILD = startup(0)
 
     # Calls the logger once to initialize it
-
     logger = Log()
 
     # Calls the Updater once to initialize it
-
     updater = Updater()
 
     # Background tasks
-
     @bot.event
     async def game_presence():
         """Changes the status of the game, which the bot is playing"""
@@ -60,9 +56,7 @@ if __name__ == "__main__":
 
 
     # Adds the cogs
-
     add_cogs(bot)
 
     # Runs the bot
-
     bot.run(TOKEN)
