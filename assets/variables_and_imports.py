@@ -25,12 +25,7 @@ from assets.logger import Logger as Log
 ################################################
 
 # Install path
-
 install_path = os.path.dirname(os.path.abspath(__file__))
 
 # Operator dict
-
 operator_dict = {"+": operator.add, "-": operator.sub, "/": operator.floordiv, "*": operator.mul}
-
-# Singleton metaclass
-
