@@ -1,13 +1,16 @@
 from assets.variables_and_imports import *
 from functionality.tools import Updater
 
-# DnD - Lobby
+"""DnD-Lobby functionality"""
 
 
 class DnDLobby(commands.Cog):
     """DnD commands that enable online gaming with the discord bot"""
+
     def __init__(self):
-        # Initialize updater
+        """Initializes the class attributes"""
+
+        # Calls the updater
         self.updater = Updater()
 
         # Sets the config file section name
