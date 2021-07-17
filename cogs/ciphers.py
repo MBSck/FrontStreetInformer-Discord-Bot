@@ -20,9 +20,8 @@ class Ciphers(commands.Cog):
         new_message = ""
 
         for i in message:
-            word = i.lower()
             new_word = ""
-            for j in word:
+            for j in i.lower():
                 if j in string.punctuation:
                     new_word += j
                 elif self.alphabet_dict[j] > 22:
@@ -45,9 +44,8 @@ class Ciphers(commands.Cog):
         new_message = ""
 
         for i in message:
-            word = i.lower()
             new_word = ""
-            for j in word:
+            for j in i.lower():
                 if j in string.punctuation:
                     new_word += j
                 else:

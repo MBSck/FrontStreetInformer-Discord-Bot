@@ -13,7 +13,7 @@ import time             # Time handling
 import datetime         # Datetime handling
 import configparser     # To parse config-files
 import ast
-# import lavalink         # For music bot connection functionality
+import lavalink         # For music bot connection functionality
 
 from dotenv import load_dotenv      # To access '.env'-files
 from discord.ext import commands    # Command handler from Discord-API
@@ -35,3 +35,6 @@ operator_dict = {"+": operator.add, "-": operator.sub, "/": operator.floordiv, "
 kung_fu = ["https://www.youtube.com/watch?v=MCpiNJn0ZZM",
            "https://www.youtube.com/watch?v=bS5P_LAqiVg",
            "https://www.youtube.com/watch?v=-51L1VAJ9Ng"]
+
+# Status for both to choose from
+games = ["DnD - Helper", "Listening to you", "Write '!help' for help"]

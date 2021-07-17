@@ -7,15 +7,14 @@ class Utility(commands.Cog):
     """Here we put all general commands"""
 
     @commands.command(name="sub", help="This makes the bot torment you again. Can be a specifiy command in form of"
-                                  "!sub <command_name>")
+                                       "!sub <command_name>")
     async def sub(self):
         ...
 
     @commands.command(name="unsub", help="This removes you from any commands that the bot targets you with!"
-                                    "Can also be a specifiy command with !unsub <command_name>")
+                                         "Can also be a specifiy command with !unsub <command_name>")
     async def unsub(self):
         ...
-
 
     @commands.command(name="suggest", help="This makes a suggestion for new bot functionality")
     async def suggest(self, ctx, *args):

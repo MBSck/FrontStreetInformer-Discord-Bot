@@ -1,5 +1,3 @@
-import os
-
 from assets.variables_and_imports import *
 
 ############################################################
@@ -15,9 +13,10 @@ def get_time():
     return actual_time, actual_date_time
 
 
-def startup(startup_delay: int):
+def startup(startup_delay: int = 15):
     """This function takes care of the bot-startup"""
-    # To ensure it can be shutdown if it causes any problems to the raspi
+
+    # Wait time, to ensure it can be shutdown if it causes any problems to the raspberry-pi
     time.sleep(startup_delay)
 
     # Rewrite the config file
@@ -71,7 +70,8 @@ class Updater(metaclass=Singleton):
         if not os.path.isfile(self.cfg_path):
             self.create_cfg_file()
 
-    def create_cfg_file(self):
+    @staticmethod
+    def create_cfg_file():
         """Creates the config.cfg file"""
 
         # Writes the install data into file
@@ -80,15 +80,13 @@ class Updater(metaclass=Singleton):
             # Runtime config
             f.write("[Runtime-Config]\n")
             f.write(f"Startup_Date = {datetime.date.today()}\n")
-            f.write(f"Runtime_Path = {install_path}\n")
-            f.write('\n')
+            f.write(f"Runtime_Path = {install_path}\n\n")
 
             # Lobby config
             f.write("[Lobby-Config]\n")
             f.write(f"Lobby = False\n")
             f.write(f"Lobby_Locked = False\n")
-            f.write(f"Lobby_Host = \n")
-            f.write('\n')
+            f.write(f"Lobby_Host = \n\n")
 
             # Lobby members register
             f.write("[Lobby-Members]\n")
@@ -107,10 +105,7 @@ class Updater(metaclass=Singleton):
 
         self.cfg_parser.read(self.cfg_path)
 
-        # reads out the data
-        data = self.cfg_parser.get(header, key)
-
-        return data
+        return self.cfg_parser.get(header, key)
 
     def readout_section_to_dict(self, section):
         """Read out section into dictionary"""
