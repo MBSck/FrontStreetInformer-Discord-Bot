@@ -1,3 +1,5 @@
+import os
+
 from assets.variables_and_imports import *
 
 ############################################################
@@ -23,11 +25,11 @@ def startup(startup_delay: int):
     updater.create_cfg_file()
 
     # Load Token
-    load_dotenv(os.path.join("assets/Token.env"))
+    load_dotenv(os.path.join("../../Token.env"))
 
     # Configure bot tokens
     TOKEN = os.getenv("DISCORD_TOKEN")
-    GUILD = os.getenv("GUILD_TOKEN")
+    GUILD = os.getenv("DISCORD_GUILD")
 
     bot = commands.Bot(command_prefix="!", case_insensitive=True)
 
@@ -138,3 +140,8 @@ class Updater(metaclass=Singleton):
             for k, v in self.cfg_parser.items(i):
                 print("{} = {}".format(k, v))
                 print()
+
+
+if __name__ == "__main__":
+    load_dotenv(os.path.join("../../Token.env"))
+    print(os.getenv("DISCORD_GUILD"))
