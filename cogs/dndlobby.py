@@ -21,6 +21,7 @@ class DnDLobby(commands.Cog):
 
     def check_for_updates(self):
         """Updates the values and checks if anything changed"""
+
         self.lobby = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby"))
         self.lobby_locked = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby_Locked"))
         self.lobby_members = self.updater.readout_section_to_dict("Lobby-Members")
@@ -30,11 +31,13 @@ class DnDLobby(commands.Cog):
         for i, o in self.lobby_members.items():
             self.updater.update_cfg_file("Lobby-Members", i, o)
 
-    @commands.command(name="lobby.start", aliases=["l.s"])
+    @commands.command(name="lobby.start", aliases=["l.s"], help="Starts a DnD lobby")
     async def lobby_start(self, ctx):
-        """Starts a DnD lobby"""
+
+        # Update check
         self.check_for_updates()
 
+        # Sets the command giver as the host if lobby not created, else member
         if not self.lobby:
             self.updater.update_cfg_file(self.section, "Lobby_Host", str(ctx.author.name).lower())
             self.lobby_members[str(ctx.message.author.name).lower()] = ctx.message.author.id
@@ -47,11 +50,13 @@ class DnDLobby(commands.Cog):
         else:
             await ctx.send("> There is already another lobby!")
 
-    @commands.command(name="lobby.close", aliases=["l.c"])
+    @commands.command(name="lobby.close", aliases=["l.c"], help="Closes a DnD lobby")
     async def lobby_close(self, ctx):
-        """Closes a DnD lobby"""
+
+        # Update check
         self.check_for_updates()
 
+        # Closes the lobby, if lobby host and removes members
         if self.lobby:
             if str(ctx.author.name).lower() == self.lobby_host:
                 self.updater.update_cfg_file(self.section, "Lobby", "False")
@@ -70,9 +75,10 @@ class DnDLobby(commands.Cog):
         else:
             await ctx.send("> There is no lobby active right now!")
 
-    @commands.command(name="lobby.status", aliases=["l.st"])
+    @commands.command(name="lobby.status", aliases=["l.st"], help="Checks the status of the lobby")
     async def lobby_status(self, ctx):
-        """Checks the status of the lobby"""
+
+        # Update check
         self.check_for_updates()
 
         if self.lobby:
@@ -80,9 +86,10 @@ class DnDLobby(commands.Cog):
         else:
             await ctx.send("> No lobby exists.")
 
-    @commands.command(name="lobby.members", aliases=["l.m"])
+    @commands.command(name="lobby.members", aliases=["l.m"], help="Displays the members of the lobby")
     async def lobby_members(self, ctx):
-        """Displays the members of the lobby"""
+
+        # Update check
         self.check_for_updates()
 
         if self.lobby:
@@ -101,9 +108,10 @@ class DnDLobby(commands.Cog):
         else:
             await ctx.send("> There is no lobby or it has been locked!")
 
-    @commands.command("lobby.lock", aliases=["l.lo"])
+    @commands.command("lobby.lock", aliases=["l.lo"], help="Command for the host to lock the lobby")
     async def lobby_locked(self, ctx):
-        """Command for the host locks the lobby"""
+
+        # Update check
         self.check_for_updates()
 
         if self.lobby and ctx.author.name == self.lobby_host:
@@ -114,9 +122,10 @@ class DnDLobby(commands.Cog):
         else:
             await ctx.send("> You do not have permission to do that!")
 
-    @commands.command(name="lobby.unlock", aliases=["l.u"])
+    @commands.command(name="lobby.unlock", aliases=["l.u"], help="Command for the host to unlock the lobby")
     async def lobby_unlocked(self, ctx):
-        """Command for the host to unlock the lobby"""
+
+        # Update check
         self.check_for_updates()
 
         if self.lobby_locked:
@@ -131,9 +140,10 @@ class DnDLobby(commands.Cog):
         else:
             await ctx.send("> You cannot unlock what is not locked!")
 
-    @commands.command(name="lobby.join", aliases=["l.j"])
+    @commands.command(name="lobby.join", aliases=["l.j"], help="Joins a DnD lobby")
     async def join_lobby(self, ctx):
-        """Joins a DnD lobby"""
+
+        # Update check
         self.check_for_updates()
 
         if self.lobby and not self.lobby_locked:
@@ -158,9 +168,10 @@ class DnDLobby(commands.Cog):
         else:
             await ctx.send("> There is no lobby to join or it has been locked!")
 
-    @commands.command(name="lobby.leave", aliases=["l.le"])
+    @commands.command(name="lobby.leave", aliases=["l.le"], help="Leaves a DnD lobby")
     async def lobby_leave(self, ctx):
-        """Leaves a DnD lobby"""
+
+        # Update check
         self.check_for_updates()
 
         if self.lobby:
@@ -186,9 +197,10 @@ class DnDLobby(commands.Cog):
         else:
             await ctx.send("> You are in no lobby!")
 
-    @commands.command(name="lobby.kick", aliases=["l.k"])
+    @commands.command(name="lobby.kick", aliases=["l.k"], help="Command for the host to kick a member from the lobby")
     async def lobby_kick(self, ctx, name):
-        """Command for the host locks kicks a member of the lobby"""
+
+        # Update check
         self.check_for_updates()
 
         if self.lobby and (str(ctx.author.name).lower() == self.lobby_host):
@@ -218,9 +230,11 @@ class DnDLobby(commands.Cog):
         else:
             await ctx.send("> You do not have permission to do that!")
 
-    @commands.command(name="lobby.host", aliases=["l.h"])
+    @commands.command(name="lobby.host", aliases=["l.h"],
+                      help="Command for the host to change host to another member of the lobby")
     async def lobby_host_change(self, ctx, name):
-        """Command for the host to change host to another member of the lobby"""
+
+        # Update check
         self.check_for_updates()
 
         if self.lobby and ctx.author.name == self.lobby_host:
