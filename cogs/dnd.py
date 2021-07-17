@@ -36,12 +36,15 @@ class DnD(commands.Cog):
         """Gets the dice rolls after user output and calculates its sum"""
 
         try:
+            # Gets all arguments
             arg_list = [dice]
             arg_list.extend(args)
 
+            # Sets the list for the die operators
             dice_operator_list = [re.split('([-+/*])', i) for i in arg_list]
             multiple_dice_list = []
 
+            # Removes any possible white-spaces
             for i in dice_operator_list.copy():
                 if i == "":
                     dice_operator_list.remove(i)
