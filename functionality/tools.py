@@ -7,14 +7,18 @@ from assets.variables_and_imports import *
 
 def get_time():
     """Gets the actual time and the datetime"""
+
     actual = datetime.datetime.now()
     actual_time = f"{actual.hour}:{actual.minute}:{actual.second}"
     actual_date_time = f"{actual.day}.{actual.month}.{actual.year} at {actual_time}"
+
     return actual_time, actual_date_time
 
 
 def startup(startup_delay: int = 15):
     """This function takes care of the bot-startup"""
+
+    global token, guild
 
     # Wait time, to ensure it can be shutdown if it causes any problems to the raspberry-pi
     time.sleep(startup_delay)
@@ -23,16 +27,12 @@ def startup(startup_delay: int = 15):
     updater = Updater()
     updater.create_cfg_file()
 
-    # Load Token
+    # Load Token and set global variables
     load_dotenv(os.path.join("../../Token.env"))
+    token, guild = os.getenv("DISCORD_TOKEN"), os.getenv("DISCORD_GUILD")
 
-    # Configure bot tokens
-    TOKEN = os.getenv("DISCORD_TOKEN")
-    GUILD = os.getenv("DISCORD_GUILD")
+    return commands.Bot(command_prefix="!", case_insensitive=True)
 
-    bot = commands.Bot(command_prefix="!", case_insensitive=True)
-
-    return bot, TOKEN, GUILD
 
 ############################################################
 # Classes
@@ -138,5 +138,5 @@ class Updater(metaclass=Singleton):
 
 
 if __name__ == "__main__":
-    load_dotenv(os.path.join("../../Token.env"))
-    print(os.getenv("DISCORD_GUILD"))
+    print(startup(0))
+    print(token)

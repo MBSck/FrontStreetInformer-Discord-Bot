@@ -28,13 +28,17 @@ from assets.logger import Logger as Log # Event logger
 # Install path
 install_path = os.path.dirname(os.path.abspath(__file__))
 
+# Token and guild
+token = ""
+guild = ""
+
 # Operator dict
 operator_dict = {"+": operator.add, "-": operator.sub, "/": operator.floordiv, "*": operator.mul}
 
-# Kung fu list, global variable
+# Kung fu list
 kung_fu = ["https://www.youtube.com/watch?v=MCpiNJn0ZZM",
            "https://www.youtube.com/watch?v=bS5P_LAqiVg",
            "https://www.youtube.com/watch?v=-51L1VAJ9Ng"]
 
-# Status for both to choose from
+# Status for bot to choose from
 games = ["DnD - Helper", "Listening to you", "Write '!help' for help"]

@@ -11,7 +11,7 @@ def main():
     """The bots main functionality"""
 
     # Startup-function that calls the bots main functionality and reads the cfg-file
-    bot, TOKEN, GUILD = startup(0)
+    bot = startup(0)
 
     @bot.event
     async def game_presence():
@@ -49,7 +49,7 @@ def main():
     add_cogs(bot)
 
     # Runs the bot
-    bot.run(TOKEN)
+    bot.run(token)
 
 
 if __name__ == "__main__":
