@@ -6,7 +6,7 @@ from assets.variables_and_imports import *
 class Music(commands.Cog):
     """Basic music bot functionality"""
 
-    def __init__(self, bot):
+    def __init__(self, bot) -> None:
         """Initializes the attributes of the class"""
 
         self.bot = bot
@@ -17,10 +17,10 @@ class Music(commands.Cog):
 
     @commands.command(name="join", help="Makes the bot join the voice channel.")
     async def join(self, ctx):
-
-        print("worked")
+        ...
 
     async def track_hook(self, event):
+        """"""
 
         if isinstance(event, lavalink.events.QueueEndEvent):
             guild_id = int(event.player.guild_id)
@@ -31,3 +31,7 @@ class Music(commands.Cog):
 
         ws = self.bot._connection._get_websocket(guild_id)
         await ws.voice_state(str(guild_id), channel_id)
+
+
+if __name__ == "__main__":
+    pass

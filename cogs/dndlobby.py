@@ -7,7 +7,7 @@ from functionality.tools import Updater
 class DnDLobby(commands.Cog):
     """DnD commands that enable online gaming with the discord bot"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initializes the class attributes"""
 
         # Calls the updater
@@ -22,7 +22,7 @@ class DnDLobby(commands.Cog):
         self.lobby_members = {}
         self.lobby_host = ""
 
-    def check_for_updates(self):
+    def check_for_updates(self) -> None:
         """Updates the values and checks if anything changed"""
 
         self.lobby = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby"))
@@ -30,7 +30,9 @@ class DnDLobby(commands.Cog):
         self.lobby_members = self.updater.readout_section_to_dict("Lobby-Members")
         self.lobby_host = self.updater.read_cfg_file(self.section, "Lobby_Host")
 
-    def write_lobby_members(self):
+    def write_lobby_members(self) -> None:
+        """Writes the lobby members into the cfg-file, to keep count of them"""
+
         for i, o in self.lobby_members.items():
             self.updater.update_cfg_file("Lobby-Members", i, o)
 
@@ -262,3 +264,7 @@ class DnDLobby(commands.Cog):
 
         else:
             await ctx.send("> You do not have permission to do that!")
+
+
+if __name__ == "__main__":
+    pass

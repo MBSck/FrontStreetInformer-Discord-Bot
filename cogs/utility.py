@@ -30,7 +30,6 @@ class Utility(commands.Cog):
         with open(os.path.join("suggestions.txt"), "a") as f:
             f.write(f"\nThis suggestions has been sent in on {get_time()[1]} by {ctx.message.author} and reads:\n"
                     f"{suggestion}\n")
-            f.close()
 
         await ctx.send(f"Suggestion has been recieved at {get_time()[0]}, thank you!")
 
@@ -49,7 +48,6 @@ class Utility(commands.Cog):
         with open(os.path.join("bug_log.txt"), "a") as f:
             f.write(f"\nThis bug report has been sent in on {get_time()[1]} by {ctx.message.author} and reads:\n"
                     f"{bugs}\n")
-            f.close()
 
         await ctx.send(f"The bug report has been recieved at {get_time()[0]}, thank you!")
 

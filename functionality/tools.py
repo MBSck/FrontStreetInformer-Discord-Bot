@@ -42,7 +42,7 @@ def startup(startup_delay: int = 15):
 class Singleton(type):
     """A singleton metaclass, that creates unique instanced classes"""
 
-    def __init__(cls, *args, **kwargs):
+    def __init__(cls, *args, **kwargs) -> None:
         """Supers and sets private class variables"""
         cls.__instance = None
         super(Singleton, cls).__init__(*args, **kwargs)
@@ -55,10 +55,40 @@ class Singleton(type):
         return cls.__instance
 
 
+class Logger(metaclass=Singleton):
+    """Logger for various message keeping"""
+
+    def __init__(self) -> None:
+        """Initializes the attributes of the class"""
+
+        self.log_message = "Logger initialized!\n"
+        self.counter = 0
+
+    def log(self, message) -> None:
+        """Gets the log message"""
+
+        self.log_message += " " + message + "\n"
+
+    def count(self):
+        """Counts for various reasons"""
+
+        self.counter += 1
+
+    def count_return(self):
+        """Gets the counts"""
+
+        return self.counter
+
+    def count_reset(self) -> None:
+        """Resets the count for future use"""
+
+        self.counter = 0
+
+
 class Updater(metaclass=Singleton):
     """This class writes and updates the config-file"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Sets the class attributes"""
 
         # Defines the parser for the cfg files
@@ -71,7 +101,7 @@ class Updater(metaclass=Singleton):
             self.create_cfg_file()
 
     @staticmethod
-    def create_cfg_file():
+    def create_cfg_file() -> None:
         """Creates the config.cfg file"""
 
         # Writes the install data into file
@@ -91,7 +121,7 @@ class Updater(metaclass=Singleton):
             # Lobby members register
             f.write("[Lobby-Members]\n")
 
-    def update_cfg_file(self, header: str, key: str, value):
+    def update_cfg_file(self, header: str, key: str, value: str) -> None:
         """Updates the config file"""
 
         update_object = self.cfg_parser[header]
@@ -126,7 +156,7 @@ class Updater(metaclass=Singleton):
             print(f"No section of name {section} found! No information was written into dictionary!")
             return
 
-    def readout_whole_cfg_file(self):
+    def readout_whole_cfg_file(self) -> None:
         """Reads out all of the config file"""
 
         self.cfg_parser.read(self.cfg_path)

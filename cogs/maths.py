@@ -9,13 +9,13 @@ class Math(commands.Cog):
     @commands.command(name="add", aliases=["a"], help="Shorthand '!a'. Adds two or more numbers. "
                                                       "Separate with spaces. "
                                                       "Can also add negative numbers with -<number>")
-    async def add(self, ctx, *args):
+    async def add(self, ctx, *args: str):
         await ctx.send(f"Your sum total is {sum([float(i) for i in args])}")
 
     @commands.command(name="mul", aliases=["m"], help="Shorthand '!m'. Adds two or more numbers. "
                                                       "Separate with spaces. "
                                                       "Can also divide with fractions e.g. 0.5 etc.")
-    async def mul(self, ctx, *args):
+    async def mul(self, ctx, *args: str):
 
         total = 1
         for i in [float(i) for i in args]:

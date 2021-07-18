@@ -8,7 +8,7 @@ from cogs.dndlobby import *
 class DnD(commands.Cog):
     """Gameplay functions for DnD"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initializes all the classes attributes"""
 
         # Initialize updater
@@ -23,7 +23,7 @@ class DnD(commands.Cog):
         self.lobby_members = {}
         self.lobby_host = ""
 
-    def check_for_updates(self):
+    def check_for_updates(self) -> None:
         """Updates the values and checks if anything changed"""
 
         self.lobby = ast.literal_eval(self.updater.read_cfg_file(self.section, "Lobby"))
@@ -160,7 +160,7 @@ class DnD(commands.Cog):
                                                        "Can also row multiple dice at the same time. Of the format"
                                                        " !roll/!r [# dice]d[# sides] [+-/*] [modifiers]"
                                                        " [# dice]d[# sides] [+-/*] [modifiers] ...")
-    async def roll(self, ctx, throw_command: str = "1d20", *args):
+    async def roll(self, ctx, throw_command: str = "1d20", *args: str):
 
         # Update check
         self.check_for_updates()
@@ -180,7 +180,7 @@ class DnD(commands.Cog):
     @commands.command(name="gmroll", aliases=["gr"], help="Shorthand '!gr'.Rolls a die and sends result directly "
                                                           "to Game Master and also you."
                                                           " Also defaults to 1d20. Great for hidden/discreet checks")
-    async def gm_roll(self, ctx, throw_command: str = "1d20", *args):
+    async def gm_roll(self, ctx, throw_command: str = "1d20", *args: str):
 
         # Update check
         self.check_for_updates()
@@ -202,7 +202,7 @@ class DnD(commands.Cog):
 
     @commands.command(name="scroll", aliases=["sr"], help="Shorthand '!sr'. This is a secret roll that sends "
                                                           "the result to the DM only")
-    async def secret_roll(self, ctx, throw_command: str = "1d20", *args):
+    async def secret_roll(self, ctx, throw_command: str = "1d20", *args: str):
 
         # Update check
         self.check_for_updates()
@@ -224,7 +224,7 @@ class DnD(commands.Cog):
 
     @commands.command(name="rnd", aliases=["rng"], help="This is a random number. Defaults to 0-100. "
                                                         "The format is <start_of_range> - <end_of_range>. ")
-    async def rnd(self, ctx, *args):
+    async def rnd(self, ctx, *args: str):
 
         # Update check
         self.check_for_updates()
@@ -262,3 +262,7 @@ class DnD(commands.Cog):
                                f"```{random.choice(range(rng_start, rng_end + 1))}```")
             else:
                 await ctx.send(f"> The end of the range must be a higher value than the start!")
+
+
+if __name__ == "__main__":
+    pass
