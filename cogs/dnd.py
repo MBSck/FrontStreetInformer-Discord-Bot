@@ -51,28 +51,33 @@ class DnD(commands.Cog):
 
             second_line = "```"
 
+            # If the format fits and only one argument is passed split die number and die range
             if len(dice_operator_list) == 1:
-
                 number_of_dice, die_range = map(int, dice.lower().split('d'))
-
                 result_dice = [random.randint(1, die_range) for _ in range(number_of_dice)]
                 second_line += ' + '.join(str(i) for i in result_dice)
 
+                # Checks for the die number
                 if number_of_dice > 1:
                     sum_total = sum(result_dice)
                     second_line += f" = {sum_total}"
 
                 multiple_dice_list.append(dice_operator_list[0].lower())
 
+            # If more than one die is passed by the end-user parse the message
             else:
                 sum_total = 0
                 if len(dice_operator_list) > 3:
                     second_line += '{'
 
+                # The message is being checked for any modifiers/operators
                 for i, o in enumerate(dice_operator_list):
                     if len(dice_operator_list) > 1:
                         if 'd' in o.lower():
+
+                            # Catches any index errors -> Lazy workaround
                             try:
+                                # If operator does not exist, pass '+0'
                                 if dice_operator_list[i+1] not in ['+', '-', '/', '*']:
                                     dice_operator_list.insert(i+1, '+')
                                     dice_operator_list.insert(i+2, '0')
@@ -81,12 +86,16 @@ class DnD(commands.Cog):
                                 dice_operator_list.insert(i+1, '+')
                                 dice_operator_list.insert(i+2, '0')
 
+                            # Checks if modifier of operator is '0'
                             if dice_operator_list[i+2] == '0':
                                 multiple_dice_list.append(dice_operator_list[i].lower())
+
+                            # If everythin was input correctly, append it to the right list
                             else:
                                 multiple_dice_list.append(f"{dice_operator_list[i].lower()}"
                                                           f"{dice_operator_list[i+1]}{dice_operator_list[i+2]}")
 
+                        # Gets default value if first element of list is operator
                         if (i == 0) and o in ['+', '-', '/', '*']:
                             dice_operator_list.insert(0, '1d20')
 
@@ -94,20 +103,28 @@ class DnD(commands.Cog):
                                                       f"{dice_operator_list[1]}{dice_operator_list[2]}")
                             continue
 
+                    # Check for operators
                     if o in ['+', '-', '/', '*']:
+
+                        # Catch any index errors
                         try:
+
+                            # Reformatting of the output string
                             if len(dice_operator_list) > 3:
                                 second_line += "["
 
+                            # Gets operator and splits the input into number of dice and range of die
                             operator_func = operator_dict[dice_operator_list[i]]
                             number_of_dice_part, die_range_part = map(int, dice_operator_list[i-1].lower().split('d'))
                             result_dice = [random.randint(1, die_range_part) for _ in range(number_of_dice_part)]
                             second_line_part = "(" + ' + '.join(str(i) for i in result_dice)
 
+                            # Sums up over all of the single dice and then uses the modifying operator
                             sum_total_part = sum(result_dice)
                             sum_total_part = operator_func(sum_total_part, int(dice_operator_list[i+1]))
                             sum_total += sum_total_part
 
+                            # Reformatting of output string
                             if (dice_operator_list[i] != '*') and (dice_operator_list[i+1] == '0'):
                                 second_line_part += f") = {sum_total_part}"
                             else:
