@@ -1,2 +1,7 @@
 # Exclude Token
 Token.env
+
+err.log
+bug.log
+
+suggestions.txt

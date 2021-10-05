@@ -27,7 +27,7 @@ class Utility(commands.Cog):
                 suggestion += " " + arg
         suggestion = "'" + suggestion[1:] + "'"
 
-        with open(os.path.join("suggestions.txt"), "a") as f:
+        with open(os.path.join(install_path, "suggestions.txt"), "a") as f:
             f.write(f"\nThis suggestions has been sent in on {get_time()[1]} by {ctx.message.author} and reads:\n"
                     f"{suggestion}\n")
 
@@ -45,7 +45,7 @@ class Utility(commands.Cog):
 
         bugs = "'" + bugs[1:] + "'"
 
-        with open(os.path.join("bug_log.txt"), "a") as f:
+        with open(os.path.join(install_path, "bug.log"), "a") as f:
             f.write(f"\nThis bug report has been sent in on {get_time()[1]} by {ctx.message.author} and reads:\n"
                     f"{bugs}\n")
 
