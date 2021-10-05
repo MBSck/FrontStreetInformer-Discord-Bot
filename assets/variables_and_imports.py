@@ -19,18 +19,12 @@ from dotenv import load_dotenv      # To access '.env'-files
 from discord.ext import commands    # Command handler from Discord-API
 from bs4 import BeautifulSoup       # Webscraping
 
-from assets.logger import Logger as Log # Event logger
-
 ################################################
 # Global variables
 ################################################
 
 # Install path
 install_path = os.path.dirname(os.path.abspath(__file__))
-
-# Token and guild
-token = ""
-guild = ""
 
 # Operator dict
 operator_dict = {"+": operator.add, "-": operator.sub, "/": operator.floordiv, "*": operator.mul}
@@ -42,3 +36,6 @@ kung_fu = ["https://www.youtube.com/watch?v=MCpiNJn0ZZM",
 
 # Status for bot to choose from
 games = ["DnD - Helper", "Listening to you", "Write '!help' for help"]
+
+if __name__ == "__main__":
+    print(install_path)

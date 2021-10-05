@@ -233,10 +233,12 @@ class DnD(commands.Cog):
         rng = "".join(i for i in args)
         rng_start, rng_end = 0, 100
 
+        # TODO: Think of way to implement negative in front of rng_start for - case
+
         if "-" in rng:
             try:
                 if rng[0] == "-":
-                    -rng_start, rng_end = re.split(r"-", rng[1:])
+                    rng_start, rng_end = re.split(r"-", rng[1:])
                 else:
                     rng_start, rng_end = re.split(r"-", rng[1:])
 

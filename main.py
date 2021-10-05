@@ -11,7 +11,7 @@ def main():
     """The bots main functionality"""
 
     # Startup-function that calls the bots main functionality and reads the cfg-file
-    bot = startup(0)
+    bot, token, guild = startup(0)
 
     @bot.event
     async def game_presence():

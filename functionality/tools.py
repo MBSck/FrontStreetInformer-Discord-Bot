@@ -18,8 +18,6 @@ def get_time():
 def startup(startup_delay: int = 15):
     """This function takes care of the bot-startup"""
 
-    global token, guild
-
     # Wait time, to ensure it can be shutdown if it causes any problems to the raspberry-pi
     time.sleep(startup_delay)
 
@@ -28,10 +26,10 @@ def startup(startup_delay: int = 15):
     updater.create_cfg_file()
 
     # Load Token and set global variables
-    load_dotenv(os.path.join("../../Token.env"))
-    token, guild = os.getenv("DISCORD_TOKEN"), os.getenv("DISCORD_GUILD")
+    load_dotenv(os.path.join(updater.read_cfg_file("Runtime-Config", "Runtime_Path"), "Token.env"))
 
-    return commands.Bot(command_prefix="!", case_insensitive=True)
+    return commands.Bot(command_prefix="!", case_insensitive=True),\
+           os.getenv("DISCORD_TOKEN"), os.getenv("DISCORD_GUILD")
 
 
 ############################################################
