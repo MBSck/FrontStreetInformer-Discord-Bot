@@ -5,3 +5,6 @@ err.log
 bug.log
 
 suggestions.txt
+
+__pycache__
+.idea
