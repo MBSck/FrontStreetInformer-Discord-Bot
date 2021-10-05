@@ -167,4 +167,3 @@ class Updater(metaclass=Singleton):
 
 if __name__ == "__main__":
     print(startup(0))
-    print(token)
