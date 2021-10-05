@@ -6,5 +6,5 @@ bug.log
 
 suggestions.txt
 
-__pycache__
+**/__pycache__
 .idea
